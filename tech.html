@@ -5,6 +5,7 @@
     <title>Technical and Software Projects | Ayesha Qahash</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Technical and software engineering projects by Ayesha Qahash including web development, Java, C plus plus, and applied educational technology.">
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/styles.css">
 </head>
@@ -31,14 +32,20 @@
 
 <main>
 
+    <!-- Intro -->
     <section class="section">
         <div class="container">
             <p class="eyebrow">Technical Portfolio</p>
             <h1 class="page-title">Technical and Software Projects</h1>
+
             <p class="page-intro center">
-                These projects highlight my foundational software engineering skills through C plus plus, Java, and web development work.  
-                I use programming to build educational tools, interactive content, and organized learning systems.
+                These projects highlight my foundational programming skills, problem solving abilities, and web development experience.
+                My technical work supports my educational design by helping me create organized learning systems, interactive content, and custom digital tools.
             </p>
+
+            <div class="center" style="margin-top: 24px;">
+                <a href="assets/technical-skills.pdf" class="button primary" download>Download Technical Skills PDF</a>
+            </div>
         </div>
     </section>
 
@@ -49,24 +56,28 @@
 
             <div class="featured-grid">
 
+                <!-- Project Card -->
                 <div class="project-card">
+                    <img src="assets/icons/code-brackets.png" alt="" class="icon">
                     <h3 class="project-title">Personal Portfolio Website</h3>
                     <p class="project-text">
-                        A fully custom website built with HTML, CSS, and GitHub Pages. Includes structured content architecture, reusable components, and mobile friendly layouts.
+                        A fully custom portfolio built with HTML, CSS, layout structuring, semantic architecture, responsive grids, and GitHub Pages deployment.
                     </p>
                 </div>
 
                 <div class="project-card">
-                    <h3 class="project-title">Educational Content Layouts</h3>
+                    <img src="assets/icons/layers.png" alt="" class="icon">
+                    <h3 class="project-title">Educational Page Layouts</h3>
                     <p class="project-text">
-                        Designed interactive and organized lesson pages for curriculum work including sections, grids, typography styles, and resource downloads.
+                        Designed interactive learning pages with section templates, reusable components, grids, typography systems, and consistent style guides.
                     </p>
                 </div>
 
                 <div class="project-card">
-                    <h3 class="project-title">GitHub Version Control</h3>
+                    <img src="assets/icons/github.png" alt="" class="icon">
+                    <h3 class="project-title">Version Control Systems</h3>
                     <p class="project-text">
-                        Used GitHub for project versioning, branching, commit history, and content deployment through GitHub Pages.
+                        Used GitHub for project management, version control, branching, merging, commit history, and static site hosting.
                     </p>
                 </div>
 
@@ -74,31 +85,37 @@
         </div>
     </section>
 
-    <!-- Programming Section -->
+    <!-- Programming -->
     <section class="section">
         <div class="container">
             <h2 class="section-title">Programming and Software Engineering</h2>
 
             <div class="featured-grid">
 
+                <!-- C++ -->
                 <div class="project-card">
+                    <img src="assets/icons/cpp.png" alt="" class="icon">
                     <h3 class="project-title">C Plus Plus Coursework Projects</h3>
                     <p class="project-text">
-                        Built several C plus plus programs as part of my software engineering certificate including memory management exercises, linked list structures, pointers, and exception handling systems.
+                        Built several C plus plus programs including memory management exercises, linked list structures, pointer handling, classes, and exception systems.
                     </p>
                 </div>
 
+                <!-- Java -->
                 <div class="project-card">
+                    <img src="assets/icons/java.png" alt="" class="icon">
                     <h3 class="project-title">Java Fundamentals</h3>
                     <p class="project-text">
-                        Completed foundational Java programming assignments including object oriented structure, class creation, constructors, exception handling, and simple data storage applications.
+                        Completed object oriented programming exercises including class creation, constructors, error checking, and small data applications.
                     </p>
                 </div>
 
+                <!-- EdTech -->
                 <div class="project-card">
+                    <img src="assets/icons/flow.png" alt="" class="icon">
                     <h3 class="project-title">Applied Educational Technology</h3>
                     <p class="project-text">
-                        Integrated technical tools into educational work by designing logical flows, interactive content, and structured learning modules through code supported layouts.
+                        Integrated programming concepts into instructional design through interactive content, structured logic, and workflow organization.
                     </p>
                 </div>
 
@@ -106,33 +123,86 @@
         </div>
     </section>
 
-    <!-- Additional Technical Skills -->
+    <!-- Code Samples -->
     <section class="section section-alt">
         <div class="container">
-            <h2 class="section-title">Additional Technical Skills</h2>
+            <h2 class="section-title">Code Samples</h2>
 
-            <div class="featured-grid">
+            <div class="code-sample-block">
 
-                <div class="project-card">
-                    <h3 class="project-title">HTML and CSS</h3>
-                    <p class="project-text">
-                        Strong working ability with semantic HTML, CSS classes, responsive design, grid layouts, component organization, and site structure creation.
-                    </p>
-                </div>
+                <h3 class="project-title">C Plus Plus Example</h3>
+                <p class="project-text">A basic linked list implementation demonstrating memory management and pointer navigation.</p>
 
-                <div class="project-card">
-                    <h3 class="project-title">Programming Logic and Design</h3>
-                    <p class="project-text">
-                        Experience with core logic principles including loops, conditional statements, data structures, and basic algorithmic thinking.
-                    </p>
-                </div>
+<pre><code class="code-block">
+// Simple singly linked list example
 
-                <div class="project-card">
-                    <h3 class="project-title">Educational Software Concepts</h3>
-                    <p class="project-text">
-                        Applied programming concepts to instructional design including flow charts, interactive scripts, and educational tool creation.
-                    </p>
-                </div>
+struct Node {
+    int value;
+    Node* next;
+};
+
+class LinkedList {
+private:
+    Node* head;
+
+public:
+    LinkedList() : head(nullptr) {}
+
+    void insertFront(int v) {
+        Node* n = new Node;
+        n->value = v;
+        n->next = head;
+        head = n;
+    }
+
+    int size() {
+        int count = 0;
+        Node* current = head;
+        while (current != nullptr) {
+            count++;
+            current = current->next;
+        }
+        return count;
+    }
+
+    ~LinkedList() {
+        Node* current = head;
+        while (current != nullptr) {
+            Node* temp = current->next;
+            delete current;
+            current = temp;
+        }
+    }
+};
+</code></pre>
+
+                <h3 class="project-title" style="margin-top: 40px;">Java Example</h3>
+                <p class="project-text">A Java class demonstrating validation, object behavior, and basic method logic.</p>
+
+<pre><code class="code-block">
+// Simple Java class example
+
+public class Student {
+    private String name;
+    private int grade;
+
+    public Student(String name, int grade) {
+        if (grade < 0 || grade > 100) {
+            throw new IllegalArgumentException("Grade must be between 0 and 100");
+        }
+        this.name = name;
+        this.grade = grade;
+    }
+
+    public boolean isPassing() {
+        return grade >= 70;
+    }
+
+    public String summary() {
+        return name + " is " + (isPassing() ? "passing" : "not passing");
+    }
+}
+</code></pre>
 
             </div>
         </div>
