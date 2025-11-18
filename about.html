@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About | Ayesha Qahash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <div class="logo">
+            <a href="index.html">Ayesha Qahash</a>
+            <span class="logo-tagline">Educational Content Design • Learning Experience</span>
+        </div>
+        <nav class="nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="process.html" class="nav-link">Process</a>
+            <a href="about.html" class="nav-link active">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="section">
+        <div class="container split">
+            <div>
+                <h1 class="page-title">About me</h1>
+                <p>
+                    I am an educator, curriculum designer, and emerging software engineer with a background in
+                    health sciences, psychology, and empathy research. I have taught and supported students in
+                    community college massage therapy programs, designed continuing education style trainings
+                    for practitioners, and built home learning frameworks for early childhood.
+                </p>
+                <p>
+                    My work often sits where disciplines meet. I like to translate complex concepts in neuroscience,
+                    trauma, and emotional development into language and structures that real people can use. I care
+                    deeply about how learning feels in the body and how it changes the way people move through their lives.
+                </p>
+                <p>
+                    I am currently expanding my technical skills through formal software engineering study. This lets me
+                    think about learning experiences not only from the perspective of curriculum and facilitation, but
+                    also in terms of systems, interfaces, and data.
+                </p>
+            </div>
+            <div>
+                <h2 class="subheading">Areas of focus</h2>
+                <ul class="checklist">
+                    <li>Educational content design and curriculum mapping</li>
+                    <li>Health sciences and massage therapy education</li>
+                    <li>Psychology and empathy focused psychoeducation</li>
+                    <li>Early childhood and parent facing learning supports</li>
+                    <li>Learning experience design for adult professionals</li>
+                    <li>Introductory computer science and coding friendly explanations</li>
+                </ul>
+
+                <h2 class="subheading">Current interests</h2>
+                <p>
+                    Right now I am especially interested in how empathy, regulation, and cognition interact during
+                    learning, and how we can design educational materials that support both understanding and nervous
+                    system resilience. I am also exploring how code and automation can free up educators to spend more
+                    time in genuine human connection.
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <p>© <span id="year"></span> Ayesha Qahash. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
