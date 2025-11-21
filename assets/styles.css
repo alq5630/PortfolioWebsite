@@ -733,3 +733,14 @@ code.code-block {
     padding: 7px 16px;
 }
 
+/* Hide preview content fully until the card is opened */
+.project-card .project-preview > * {
+    display: none;
+}
+
+/* When the card is open, reveal the contents inside the drawer */
+.project-card.is-open .project-preview > * {
+    display: block;
+}
+
+
