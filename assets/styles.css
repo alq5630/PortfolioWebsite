@@ -757,3 +757,36 @@ code.code-block {
     margin-top: 1rem;
 }
 
+/* Make reveal cards grow naturally when opened */
+.reveal-card {
+    overflow: visible; /* allow the dropdown to fully show */
+}
+
+/* Preview hidden by default */
+.project-preview {
+    display: none;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: 
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+/* When card is open */
+.reveal-card.is-open .project-preview {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Fix height issues on the card container */
+.project-card {
+    height: auto; /* ensures full expansion */
+    overflow: visible;
+}
+
+/* Make sure “View full project” is always visible */
+.preview-link {
+    display: inline-flex;
+    margin-top: 1rem;
+}
