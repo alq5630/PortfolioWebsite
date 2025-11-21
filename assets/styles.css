@@ -602,63 +602,134 @@ code.code-block {
 }
 
 /* ==========================================
-   FEATURED PROJECT — Hover Aura Glow + Reveal
+   FEATURED PROJECT PREVIEW DRAWER
    ========================================== */
 
-/* Base reveal state */
-.reveal-card {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: 
-        opacity 0.6s ease, 
-        transform 0.6s ease;
+.project-card.has-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-/* When visible */
-.reveal-card.visible {
+/* Main content stays as-is */
+.project-main {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Peek inside button */
+.preview-toggle {
+    align-self: flex-start;
+    border: none;
+    background: rgba(14, 71, 73, 0.06);
+    color: var(--deep-teal);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+    font-family: "Montserrat", sans-serif;
+}
+
+.preview-toggle::after {
+    content: "⟶";
+    font-size: 0.9rem;
+}
+
+.project-card.is-open .preview-toggle::after {
+    content: "⌄";
+}
+
+.preview-toggle:hover {
+    background: rgba(14, 71, 73, 0.12);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+}
+
+/* Preview drawer */
+.project-preview {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    padding-top: 0;
+    padding-bottom: 0;
+    border-top: 1px solid transparent;
+    transition:
+        max-height 0.4s ease,
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        padding 0.3s ease,
+        border-color 0.3s ease;
+}
+
+/* When open */
+.project-card.is-open .project-preview {
+    max-height: 420px; /* adjust if you need more space */
     opacity: 1;
     transform: translateY(0);
+    padding-top: 10px;
+    padding-bottom: 6px;
+    border-top-color: rgba(0,0,0,0.06);
 }
 
-/* Hover Interactions */
-.reveal-card {
-    position: relative;
-    overflow: hidden;
+/* Preview content */
+.preview-media {
+    background: rgba(247, 244, 238, 0.9);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(234,234,234,0.8);
 }
 
-/* Glow Aura Behind Card */
-.reveal-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-        circle at 50% 30%,
-        rgba(64, 167, 152, 0.18),
-        rgba(217, 93, 57, 0.15),
-        transparent 70%
-    );
-    opacity: 0;
-    transition: opacity 0.35s ease, transform 0.35s ease;
-    transform: scale(0.9);
-    pointer-events: none;
+.preview-media--placeholder {
+    font-size: 0.9rem;
+    color: var(--dark-gray);
 }
 
-.reveal-card:hover::before {
-    opacity: 1;
-    transform: scale(1.05);
-}
-
-/* Lift + shadow on hover */
-.reveal-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 28px rgba(0,0,0,0.12);
-    background: linear-gradient(145deg, #ffffff, #f1eee7);
-}
-
-/* Title micro-animation */
-.reveal-card:hover .project-title {
-    letter-spacing: 0.2px;
+.preview-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(64,167,152,0.14);
     color: var(--deep-teal);
-    transition: color 0.25s ease, letter-spacing 0.25s ease;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+/* Bullet list inside preview */
+.preview-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+}
+
+.preview-list li {
+    position: relative;
+    padding-left: 16px;
+    margin-bottom: 4px;
+}
+
+.preview-list li::before {
+    content: "•";
+    position: absolute;
+    left: 4px;
+    top: 0;
+    color: var(--rust-orange);
+}
+
+/* View project button inside preview */
+.preview-link {
+    font-size: 0.85rem;
+    padding: 7px 16px;
 }
 
