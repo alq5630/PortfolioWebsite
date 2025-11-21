@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ESD Subtype Recognition Simulator | Ayesha Qahash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="An interactive Empathy Spectrum Disorder (ESD) subtype recognition simulator created by Ayesha Qahash. Practice reading emotional patterns and identifying ESD subtypes through a gentle, scenario-based experience.">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-teal: #0e4749;
+            --rust-orange: #d95d39;
+            --mustard-yellow: #e3b505;
+            --muted-turquoise: #40a798;
+            --soft-beige: #f7f4ee;
+            --light-gray: #eaeaea;
+            --dark-gray: #444444;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: "Montserrat", sans-serif;
+            background: #fafafa;
+            color: #222222;
+            line-height: 1.6;
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 18px 0;
+            background: #ffffff;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .site-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--deep-teal);
+            margin: 0;
+        }
+
+        .site-subtitle {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            margin: 2px 0 0 0;
+        }
+
+        main {
+            flex: 1;
+            padding: 40px 0 60px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--deep-teal);
+            margin-bottom: 10px;
+        }
+
+        .eyebrow {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted-turquoise);
+            margin-bottom: 6px;
+        }
+
+        .page-intro {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            max-width: 640px;
+            margin-bottom: 24px;
+        }
+
+        .simulator-card {
+            background: var(--soft-beige);
+            border-radius: 18px;
+            padding: 24px 20px 26px;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .simulator-card::before {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(64, 167, 152, 0.25) 0, transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(233, 181, 5, 0.18) 0, transparent 55%),
+                radial-gradient(circle at 0% 100%, rgba(217, 93, 57, 0.18) 0, transparent 55%);
+            opacity: 0.75;
+            pointer-events: none;
+        }
+
+        .simulator-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .sim-meta {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            margin-bottom: 12px;
+        }
+
+        .badge-soft {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(14, 71, 73, 0.06);
+            color: var(--deep-teal);
+            font-size: 0.8rem;
+            margin-right: 6px;
+        }
+
+        .badge-soft span {
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .progress {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            margin-bottom: 12px;
+        }
+
+        .scene-text {
+            background: rgba(255,255,255,0.86);
+            border-radius: 14px;
+            padding: 16px 14px;
+            border: 1px solid rgba(255,255,255,0.7);
+            margin-bottom: 18px;
+            font-size: 0.97rem;
+        }
+
+        .scene-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted-turquoise);
+            margin-bottom: 4px;
+        }
+
+        .scene-body {
+            color: var(--dark-gray);
+        }
+
+        .choice-group-label {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--deep-teal);
+            margin-bottom: 10px;
+        }
+
+        .choices-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .choice-btn {
+            width: 100%;
+            text-align: left;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 10px 12px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            background: rgba(255,255,255,0.92);
+            color: #222222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease, border-color 0.18s ease;
+        }
+
+        .choice-btn:hover {
+            background: #ffffff;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.16);
+            transform: translateY(-1px);
+            border-color: rgba(64, 167, 152, 0.4);
+        }
+
+        .choice-label-main {
+            flex: 1;
+            padding-right: 12px;
+        }
+
+        .choice-tag {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: rgba(14, 71, 73, 0.08);
+            color: var(--deep-teal);
+            white-space: nowrap;
+        }
+
+        .choice-feedback {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            background: rgba(255,255,255,0.92);
+            border-radius: 10px;
+            border: 1px dashed rgba(14,71,73,0.25);
+            padding: 10px 11px;
+            margin-bottom: 14px;
+            display: none;
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-soft {
+            border-radius: 999px;
+            border: none;
+            padding: 9px 18px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease, opacity 0.18s ease;
+        }
+
+        .btn-primary {
+            background: var(--deep-teal);
+            color: #ffffff;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+        }
+
+        .btn-primary:hover {
+            background: #0b3537;
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.9);
+            color: var(--deep-teal);
+            border: 1px solid rgba(14,71,73,0.25);
+        }
+
+        .btn-ghost:hover {
+            background: #ffffff;
+        }
+
+        .btn-disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .result-panel {
+            background: rgba(255,255,255,0.9);
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 18px 16px 18px;
+            margin-top: 10px;
+        }
+
+        .result-heading {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--deep-teal);
+            margin-bottom: 6px;
+        }
+
+        .result-subtitle {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+
+        .subtype-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(14,71,73,0.08);
+            margin: 0 6px 6px 0;
+            font-size: 0.8rem;
+        }
+
+        .subtype-chip span {
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .subtype-desc {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+
+        .score-row {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+        }
+
+        .score-row strong {
+            font-weight: 600;
+        }
+
+        .disclaimer {
+            font-size: 0.75rem;
+            color: #666666;
+            margin-top: 14px;
+        }
+
+        footer {
+            background: var(--deep-teal);
+            color: #ffffff;
+            padding: 22px 0;
+            font-size: 0.85rem;
+        }
+
+        footer .container {
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                padding-top: 28px;
+            }
+            h1 {
+                font-size: 1.7rem;
+            }
+            .simulator-card {
+                padding: 18px 14px 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <header>
+        <div class="container">
+            <p class="site-title">Ayesha Qahash</p>
+            <p class="site-subtitle">Empathy Spectrum Disorder · Interactive Learning Tool</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <p class="eyebrow">Interactive Simulator</p>
+            <h1>ESD Subtype Recognition Simulator</h1>
+            <p class="page-intro">
+                This gentle, scenario-based simulator invites you to notice emotional patterns and practice
+                recognizing Empathy Spectrum Disorder (ESD) subtypes. You’ll move through a short interaction,
+                choose what you think is happening beneath the surface, and see how your impressions map onto
+                the six ESD subtypes.
+            </p>
+
+            <div class="simulator-card">
+                <div class="simulator-inner">
+                    <div class="sim-meta">
+                        <span class="badge-soft"><span>Mode:</span> Guided scenario</span>
+                        <span class="badge-soft"><span>Focus:</span> Pattern recognition</span>
+                    </div>
+
+                    <div id="progress" class="progress"></div>
+
+                    <div id="scene" class="scene-text">
+                        <!-- Scene text injected by JS -->
+                    </div>
+
+                    <div id="choiceFeedback" class="choice-feedback"></div>
+
+                    <div id="choicesWrapper">
+                        <div class="choice-group-label">What stands out to you most in this moment?</div>
+                        <div id="choices" class="choices-grid">
+                            <!-- Choice buttons injected by JS -->
+                        </div>
+                    </div>
+
+                    <div class="controls-row">
+                        <button id="restartBtn" class="btn-soft btn-ghost">Start Over</button>
+                        <button id="nextBtn" class="btn-soft btn-primary btn-disabled">Next</button>
+                    </div>
+
+                    <div id="result" class="result-panel" style="display:none;"></div>
+
+                    <p class="disclaimer">
+                        This simulator is an educational tool only. It is not a clinical assessment or diagnostic
+                        instrument. It is designed to help you explore patterns of empathy and emotional coping
+                        using the Empathy Spectrum Disorder framework.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            © <span id="year"></span> Ayesha Qahash · Empathy Spectrum Disorder Framework
+        </div>
+    </footer>
+</div>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // --- ESD subtype metadata ---
+    const subtypes = {
+        A: {
+            id: "A",
+            name: "Type A · Emotional Hypo-Empathy",
+            description: "Lower emotional resonance on the surface, often appearing flat, practical, or disconnected from feeling tone while still functioning cognitively.",
+        },
+        B: {
+            id: "B",
+            name: "Type B · Emotional Hyper-Empathy",
+            description: "High emotional resonance and porous boundaries, with a tendency toward flooding, overwhelm, and absorbing others' feelings.",
+        },
+        C: {
+            id: "C",
+            name: "Type C · Cognitive-Dominant Empathy",
+            description: "Strong conceptual understanding of others' perspectives with limited felt resonance, often leading with analysis, explanation, and problem-solving.",
+        },
+        D: {
+            id: "D",
+            name: "Type D · Empathic Dysregulation (Oscillating)",
+            description: "Oscillation between over-engagement and shutdown, often swinging between intense attunement and withdrawal or irritation.",
+        },
+        E: {
+            id: "E",
+            name: "Type E · Empathic Shutdown (Trauma-Linked)",
+            description: "A pattern of numbing, detaching, or going offline when the nervous system is overwhelmed, often rooted in trauma-linked protective strategies.",
+        },
+        F: {
+            id: "F",
+            name: "Type F · Dark Empathy (Strategic/Instrumental)",
+            description: "Accurate reading of others' emotions used strategically—sometimes care-based, sometimes self-serving—where attunement is leveraged instrumentally.",
+        }
+    };
+
+    // --- Scenario scenes ---
+    // Single scenario with 3 moments; user choices map to subtype patterns.
+    const scenes = [
+        {
+            id: 1,
+            label: "Scene 1",
+            text: "You’re in a small team meeting. One teammate, Jordan, shares that they’ve been \"barely keeping it together\" outside of work. They look tired and a little shaky. Another teammate, Riley, responds first.\n\nAs Riley speaks, you notice their pattern.",
+            choices: [
+                {
+                    label: "Riley stays very still, voice flat, immediately shifts to practical logistics and next steps.",
+                    subtype: "A",
+                    feedback: "You’re noticing a cooler, solution-focused response with low visible emotional resonance. This often points toward a hypo-empathic or cognitive-leaning pattern."
+                },
+                {
+                    label: "Riley’s eyes fill with tears, their voice wavers, and they begin sharing their own recent overwhelm in detail.",
+                    subtype: "B",
+                    feedback: "You’re tracking emotional flooding and personal merging with the story. This pattern is common in hyper-empathic profiles."
+                },
+                {
+                    label: "Riley calmly summarizes what Jordan said, names the stressors, and suggests a few structured options without much visible emotion.",
+                    subtype: "C",
+                    feedback: "You’re noticing a strong cognitive reflection of the situation with lower relational affect. This often reflects a cognitive-dominant style."
+                },
+                {
+                    label: "Riley initially leans in with concern, then suddenly pulls back, changes the subject, and looks irritated.",
+                    subtype: "D",
+                    feedback: "You’re noticing an oscillation between engagement and withdrawal—a hallmark of empathic dysregulation."
+                }
+            ]
+        },
+        {
+            id: 2,
+            label: "Scene 2",
+            text: "After the meeting, you walk past the hallway and overhear Riley speaking to another colleague about what happened.\n\nTheir tone and word choice offer more clues.",
+            choices: [
+                {
+                    label: "Riley says, \"Honestly, people are too sensitive. Everyone has problems. They just need to pull it together.\"",
+                    subtype: "A",
+                    feedback: "This response minimizes emotional experience and leans into dismissal or toughness, which often aligns with hypo-empathic presentations."
+                },
+                {
+                    label: "Riley says, \"I can’t stop thinking about Jordan. I barely slept, I feel like I’m falling apart with them.\"",
+                    subtype: "B",
+                    feedback: "This shows high vicarious overwhelm and difficulty holding boundaries around someone else’s pain—very consistent with hyper-empathy."
+                },
+                {
+                    label: "Riley says, \"It’s a textbook burnout pattern—too many inputs, no recovery window. They need a clearer system.\"",
+                    subtype: "C",
+                    feedback: "This frames Jordan’s experience through analytical language and conceptual models, common in cognitive-dominant empathy."
+                },
+                {
+                    label: "Riley alternates between, \"I’m really worried about them\" and \"Ugh, I just can’t deal with this,\" pacing as they talk.",
+                    subtype: "D",
+                    feedback: "This reflects swinging between concern and shutdown or irritability—an oscillating pattern consistent with Type D."
+                },
+                {
+                    label: "Riley says, \"This could be useful; if Jordan’s struggling, I might be able to step in and take lead on that project.\"",
+                    subtype: "F",
+                    feedback: "Here, emotional information is being used strategically, potentially to gain advantage—this is characteristic of dark empathy."
+                }
+            ]
+        },
+        {
+            id: 3,
+            label: "Scene 3",
+            text: "Later in the week, a new stressor hits the team. A deadline is moved up unexpectedly, and everyone is tense. Jordan looks overwhelmed again.\n\nYou watch how Riley responds in the moment.",
+            choices: [
+                {
+                    label: "Riley goes completely quiet, avoids eye contact, and immerses themselves in their screen as if no one else is there.",
+                    subtype: "E",
+                    feedback: "This has the flavor of shut-down withdrawal under stress—often linked to trauma-based protective strategies (Type E)."
+                },
+                {
+                    label: "Riley walks over to Jordan, speaks gently but firmly, and says, \"Let’s map your next hour together so this feels less impossible.\"",
+                    subtype: "C",
+                    feedback: "This blends structure and support, with more emphasis on problem clarity than shared emotional processing—cognitive-dominant."
+                },
+                {
+                    label: "Riley loudly announces to the group how stressed everyone is, joking dramatically, and keeps checking if people agree.",
+                    subtype: "B",
+                    feedback: "This points toward externalized emotional intensity and collective dysregulation—one way hyper-empathy can show up socially."
+                },
+                {
+                    label: "Riley offers to \"take care of\" a piece of Jordan’s work, then later reminds leadership that they stepped in under pressure.",
+                    subtype: "F",
+                    feedback: "Here, support is intertwined with image management or leverage, again consistent with strategic or dark empathy (Type F)."
+                }
+            ]
+        }
+    ];
+
+    // Track progress and scores
+    let currentSceneIndex = 0;
+    const scores = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+    let selectedChoice = null;
+
+    const progressEl = document.getElementById('progress');
+    const sceneEl = document.getElementById('scene');
+    const choicesEl = document.getElementById('choices');
+    const feedbackEl = document.getElementById('choiceFeedback');
+    const nextBtn = document.getElementById('nextBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const resultEl = document.getElementById('result');
+
+    function resetScores() {
+        for (let key in scores) {
+            if (Object.prototype.hasOwnProperty.call(scores, key)) {
+                scores[key] = 0;
+            }
+        }
+    }
+
+    function renderScene() {
+        const scene = scenes[currentSceneIndex];
+
+        // Update progress text
+        progressEl.textContent = `Step ${currentSceneIndex + 1} of ${scenes.length}`;
+
+        // Scene text
+        const formattedText = scene.text.replace(/\n\n/g, "<br><br>");
+        sceneEl.innerHTML = `
+            <div class="scene-label">${scene.label}</div>
+            <div class="scene-body">${formattedText}</div>
+        `;
+
+        // Clear previous choices
+        choicesEl.innerHTML = "";
+        feedbackEl.style.display = "none";
+        feedbackEl.textContent = "";
+        selectedChoice = null;
+        nextBtn.classList.add("btn-disabled");
+
+        // Build choice buttons
+        scene.choices.forEach((choice, index) => {
+            const btn = document.createElement('button');
+            btn.className = "choice-btn";
+            btn.innerHTML = `
+                <div class="choice-label-main">${choice.label}</div>
+                <div class="choice-tag">Pattern ${index + 1}</div>
+            `;
+            btn.addEventListener('click', () => handleChoice(choice, btn));
+            choicesEl.appendChild(btn);
+        });
+
+        // Hide result if we are not done
+        if (currentSceneIndex < scenes.length) {
+            resultEl.style.display = "none";
+        }
+    }
+
+    function handleChoice(choice, buttonEl) {
+        // Clear active state on all buttons
+        Array.from(choicesEl.children).forEach(btn => {
+            btn.style.borderColor = "rgba(0,0,0,0.06)";
+            btn.style.boxShadow = "none";
+            btn.style.background = "rgba(255,255,255,0.92)";
+        });
+
+        // Highlight selected
+        buttonEl.style.borderColor = "rgba(64,167,152,0.7)";
+        buttonEl.style.boxShadow = "0 8px 20px rgba(0,0,0,0.18)";
+        buttonEl.style.background = "#ffffff";
+
+        selectedChoice = choice;
+        feedbackEl.textContent = choice.feedback;
+        feedbackEl.style.display = "block";
+        nextBtn.classList.remove("btn-disabled");
+    }
+
+    function computeResult() {
+        // Find highest scoring subtype
+        let bestKey = null;
+        let bestScore = -Infinity;
+        for (let key in scores) {
+            if (Object.prototype.hasOwnProperty.call(scores, key)) {
+                if (scores[key] > bestScore) {
+                    bestScore = scores[key];
+                    bestKey = key;
+                }
+            }
+        }
+
+        // Build result UI
+        if (!bestKey || bestScore === 0) {
+            resultEl.innerHTML = `
+                <div class="result-heading">You explored multiple patterns.</div>
+                <div class="result-subtitle">
+                    Your choices didn’t strongly lean toward a single subtype in this run,
+                    which is completely okay. Sometimes we’re simply observing, not landing on a firm pattern.
+                </div>
+                <div class="subtype-desc">
+                    You can restart the simulator if you’d like to explore how different selections
+                    highlight different ESD subtype profiles.
+                </div>
+            `;
+            resultEl.style.display = "block";
+            return;
+        }
+
+        const bestSubtype = subtypes[bestKey];
+
+        let scoresText = "";
+        Object.keys(scores).forEach(key => {
+            const s = scores[key];
+            if (s > 0) {
+                scoresText += `<div class="score-row"><strong>${subtypes[key].name}:</strong> ${s} pattern match${s > 1 ? "es" : ""}</div>`;
+            }
+        });
+
+        resultEl.innerHTML = `
+            <div class="result-heading">Most Reflected Pattern in This Scenario</div>
+            <div class="result-subtitle">
+                Based on your selections, the pattern most emphasized in this walkthrough was:
+            </div>
+            <div class="subtype-chip">
+                <span>${bestSubtype.id}</span> ${bestSubtype.name.replace(/^Type [A-F] · /, "")}
+            </div>
+            <div class="subtype-desc">
+                ${bestSubtype.description}
+            </div>
+            <div class="subtype-desc">
+                Remember: this simulator is about practicing pattern recognition, not labeling real people.
+                In the ESD framework, context, history, and nervous system patterns all matter when reflecting on subtype profiles.
+            </div>
+            <div class="subtype-desc">
+                Here’s how your choices mapped across the spectrum:
+            </div>
+            ${scoresText}
+        `;
+        resultEl.style.display = "block";
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (!selectedChoice || nextBtn.classList.contains("btn-disabled")) return;
+
+        // Apply score from selected choice
+        if (selectedChoice.subtype && scores[selectedChoice.subtype] !== undefined) {
+            scores[selectedChoice.subtype] += 1;
+        }
+
+        if (currentSceneIndex < scenes.length - 1) {
+            currentSceneIndex++;
+            renderScene();
+        } else {
+            // End of scenario
+            computeResult();
+        }
+
+        // Disable "Next" until a new choice is made
+        nextBtn.classList.add("btn-disabled");
+    });
+
+    restartBtn.addEventListener('click', () => {
+        currentSceneIndex = 0;
+        resetScores();
+        renderScene();
+        resultEl.style.display = "none";
+        feedbackEl.style.display = "none";
+    });
+
+    // Initialize
+    resetScores();
+    renderScene();
+</script>
+</body>
+</html>
