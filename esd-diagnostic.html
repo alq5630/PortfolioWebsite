@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ESD Adaptive Diagnostic | Ayesha Qahash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="An adaptive Empathy Spectrum Disorder (ESD) diagnostic tool created by Ayesha Qahash. Explore your primary empathy subtype pattern through a gentle, multi-part quiz.">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --deep-teal: #0e4749;
+            --rust-orange: #d95d39;
+            --mustard-yellow: #e3b505;
+            --muted-turquoise: #40a798;
+            --soft-beige: #f7f4ee;
+            --light-gray: #eaeaea;
+            --dark-gray: #444444;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: "Montserrat", sans-serif;
+            background: #fafafa;
+            color: #222222;
+            line-height: 1.6;
+        }
+
+        button, .option-button, .scale-label, .pair-option {
+            font-family: "Montserrat", sans-serif !important;
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 18px 0;
+            background: #ffffff;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .site-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--deep-teal);
+            margin: 0;
+        }
+
+        .site-subtitle {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            margin: 2px 0 0 0;
+        }
+
+        .back-home {
+             display: inline-block;
+             margin: 16px 0 6px;
+             font-size: 0.9rem;
+             color: var(--deep-teal);
+             border-bottom: 1px solid transparent;
+             text-decoration: none;
+             transition: 0.2s ease;
+        }
+
+        .back-home:hover {
+             color: var(--rust-orange);
+             border-bottom-color: rgba(217, 93, 57, 0.4);
+        }
+
+        main {
+            flex: 1;
+            padding: 40px 0 60px;
+        }
+
+        .eyebrow {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted-turquoise);
+            margin-bottom: 6px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--deep-teal);
+            margin-bottom: 10px;
+        }
+
+        .page-intro {
+            font-size: 1rem;
+            color: var(--dark-gray);
+            max-width: 640px;
+            margin-bottom: 24px;
+        }
+
+        .quiz-card {
+            background: var(--soft-beige);
+            border-radius: 18px;
+            padding: 24px 20px 26px;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-card::before {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(64, 167, 152, 0.25) 0, transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(233, 181, 5, 0.18) 0, transparent 55%),
+                radial-gradient(circle at 0% 100%, rgba(217, 93, 57, 0.18) 0, transparent 55%);
+            opacity: 0.75;
+            pointer-events: none;
+        }
+
+        .quiz-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .quiz-meta {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            margin-bottom: 12px;
+        }
+
+        .badge-soft {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(14, 71, 73, 0.06);
+            color: var(--deep-teal);
+            font-size: 0.8rem;
+            margin-right: 6px;
+        }
+
+        .badge-soft span {
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted-turquoise);
+            margin-bottom: 4px;
+        }
+
+        .question-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--deep-teal);
+            margin-bottom: 6px;
+        }
+
+        .question-prompt {
+            font-size: 0.95rem;
+            color: var(--dark-gray);
+            margin-bottom: 16px;
+        }
+
+        .question-helper {
+            font-size: 0.85rem;
+            color: #666666;
+            margin-bottom: 14px;
+        }
+
+        /* Options common */
+        .options-block {
+            margin-bottom: 18px;
+        }
+
+        .option-button {
+            width: 100%;
+            text-align: left;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 9px 11px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            background: rgba(255,255,255,0.94);
+            color: #222222;
+            display: block;
+            margin-bottom: 8px;
+            transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease, border-color 0.18s ease;
+        }
+
+        .option-button:hover {
+            background: #ffffff;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.16);
+            transform: translateY(-1px);
+            border-color: rgba(64,167,152,0.5);
+        }
+
+        .option-button.selected {
+            border-color: rgba(64,167,152,0.9);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+            background: #ffffff;
+        }
+
+        /* Scale-style options */
+        .scale-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+        }
+
+        .scale-label {
+            font-size: 0.88rem;
+        }
+
+        /* Pair options */
+        .pair-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .pair-option {
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: rgba(255,255,255,0.94);
+            color: #222222;
+            transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease, border-color 0.18s ease;
+        }
+
+        .pair-option:hover {
+            background: #ffffff;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.16);
+            transform: translateY(-1px);
+            border-color: rgba(64,167,152,0.5);
+        }
+
+        .pair-option.selected {
+            border-color: rgba(64,167,152,0.9);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+            background: #ffffff;
+        }
+
+        .error-text {
+            font-size: 0.85rem;
+            color: #b73239;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-soft {
+            border-radius: 999px;
+            border: none;
+            padding: 9px 18px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease, opacity 0.18s ease;
+        }
+
+        .btn-primary {
+            background: var(--deep-teal);
+            color: #ffffff;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.16);
+        }
+
+        .btn-primary:hover {
+            background: #0b3537;
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.9);
+            color: var(--deep-teal);
+            border: 1px solid rgba(14,71,73,0.25);
+        }
+
+        .btn-ghost:hover {
+            background: #ffffff;
+        }
+
+        .btn-disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .result-panel {
+            background: rgba(255,255,255,0.9);
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 18px 16px 18px;
+            margin-top: 18px;
+            display: none;
+        }
+
+        .result-heading {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--deep-teal);
+            margin-bottom: 6px;
+        }
+
+        .result-subtitle {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+
+        .subtype-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(14,71,73,0.08);
+            margin: 0 6px 6px 0;
+            font-size: 0.8rem;
+        }
+
+        .subtype-chip span {
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .subtype-desc {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+        }
+
+        .bar-row {
+            margin-bottom: 6px;
+        }
+
+        .bar-label {
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        .bar-track {
+            width: 100%;
+            height: 8px;
+            background: #e5e5e5;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--muted-turquoise), var(--mustard-yellow), var(--rust-orange));
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+
+        .disclaimer {
+            font-size: 0.75rem;
+            color: #666666;
+            margin-top: 14px;
+        }
+
+        footer {
+            background: var(--deep-teal);
+            color: #ffffff;
+            padding: 22px 0;
+            font-size: 0.85rem;
+        }
+
+        footer .container {
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            .pair-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            main {
+                padding-top: 28px;
+            }
+            h1 {
+                font-size: 1.7rem;
+            }
+            .quiz-card {
+                padding: 18px 14px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="page-wrapper">
+
+    <header>
+        <div class="container">
+            <p class="site-title">Ayesha Qahash</p>
+            <p class="site-subtitle">Empathy Spectrum Disorder · Adaptive Diagnostic</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="back-home">← Back to Home</a>
+    </div>
+
+    <main>
+        <div class="container">
+            <p class="eyebrow">Interactive Assessment</p>
+            <h1>ESD Adaptive Diagnostic</h1>
+            <p class="page-intro">
+                This multi-part diagnostic is a gentle way to explore your most prominent Empathy Spectrum Disorder
+                (ESD) patterns. You’ll respond to short scenarios, self-reflection items, and stress-pattern questions.
+                At the end, you’ll see a suggested primary and secondary subtype with a brief interpretation.
+            </p>
+
+            <div class="quiz-card">
+                <div class="quiz-inner">
+                    <div class="quiz-meta">
+                        <span class="badge-soft"><span>Format:</span> 10–12 questions</span>
+                        <span class="badge-soft"><span>Estimated time:</span> 6–8 minutes</span>
+                    </div>
+
+                    <div id="progressText" class="progress-text"></div>
+
+                    <div id="questionBlock">
+                        <div id="sectionLabel" class="section-label"></div>
+                        <div id="questionTitle" class="question-title"></div>
+                        <div id="questionPrompt" class="question-prompt"></div>
+                        <div id="questionHelper" class="question-helper"></div>
+
+                        <div id="optionsBlock" class="options-block"></div>
+                        <div id="errorText" class="error-text">Please choose one response to continue.</div>
+                    </div>
+
+                    <div class="controls-row">
+                        <button id="restartBtn" class="btn-soft btn-ghost">Start Over</button>
+                        <button id="nextBtn" class="btn-soft btn-primary">Next</button>
+                    </div>
+
+                    <div id="resultPanel" class="result-panel"></div>
+
+                    <p class="disclaimer">
+                        This tool is an educational self-reflection exercise, not a clinical instrument.
+                        It is designed to help you explore patterns and language around empathy, not to assign
+                        a fixed label or diagnosis.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            © <span id="year"></span> Ayesha Qahash · Empathy Spectrum Disorder Framework
+        </div>
+    </footer>
+</div>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const subtypes = {
+        A: {
+            id: "A",
+            name: "Type A · Emotional Hypo-Empathy",
+            description: "Lower visible emotional resonance with a tendency toward practicality, detachment, or minimizing emotional tone."
+        },
+        B: {
+            id: "B",
+            name: "Type B · Emotional Hyper-Empathy",
+            description: "High emotional resonance and porous boundaries, with a tendency to absorb others’ feelings and become flooded."
+        },
+        C: {
+            id: "C",
+            name: "Type C · Cognitive-Dominant Empathy",
+            description: "Leads with analysis, explanation, and perspective-taking more than felt emotional resonance."
+        },
+        D: {
+            id: "D",
+            name: "Type D · Empathic Dysregulation (Oscillating)",
+            description: "Oscillates between over-engagement and withdrawal, often swinging between intense attunement and shutdown."
+        },
+        E: {
+            id: "E",
+            name: "Type E · Empathic Shutdown (Trauma-Linked)",
+            description: "Tends to numb out, go blank, or disconnect under stress as a nervous system protection pattern."
+        },
+        F: {
+            id: "F",
+            name: "Type F · Dark Empathy (Strategic/Instrumental)",
+            description: "Accurately reads others’ emotional states and may use that attunement strategically, sometimes care-based, sometimes self-serving."
+        }
+    };
+
+    // Question configuration: type = "single" | "scale" | "pair"
+    const questions = [
+        // Part 1: Emotional Resonance
+        {
+            id: "q1",
+            section: "Part 1 · Emotional Resonance",
+            type: "scale",
+            title: "When someone you care about is visibly upset in front of you...",
+            prompt: "Which statement feels closest to your inner experience most of the time?",
+            helper: "There’s no right answer—just choose the one that feels most familiar.",
+            options: [
+                { value: "1", label: "I register it but feel surprisingly little inside.", weights: { A: 1 } },
+                { value: "2", label: "I feel something, but it stays pretty contained and distant.", weights: { A: 0.5, C: 0.5 } },
+                { value: "3", label: "I notice my feelings respond, but I can stay mostly steady.", weights: { C: 0.7, B: 0.3 } },
+                { value: "4", label: "I feel their emotion strongly and have to manage my own reaction.", weights: { B: 1, D: 0.2 } },
+                { value: "5", label: "I almost feel what they’re feeling in my own body; it can be overwhelming.", weights: { B: 1.2, D: 0.3 } }
+            ]
+        },
+        {
+            id: "q2",
+            section: "Part 1 · Emotional Resonance",
+            type: "single",
+            title: "After emotionally intense conversations...",
+            prompt: "What best describes your nervous system afterward?",
+            helper: "",
+            options: [
+                { value: "a", label: "I feel mostly unaffected and can move on quickly.", weights: { A: 1 } },
+                { value: "b", label: "I feel heavy or flooded and may need a lot of decompression.", weights: { B: 1, D: 0.5 } },
+                { value: "c", label: "I go emotionally blank or numb out, sometimes without noticing until later.", weights: { E: 1, D: 0.3 } },
+                { value: "d", label: "I think about it a lot, replaying and analyzing the details more than feeling them.", weights: { C: 1 } }
+            ]
+        },
+        {
+            id: "q3",
+            section: "Part 1 · Emotional Resonance",
+            type: "single",
+            title: "When someone cries in front of you...",
+            prompt: "Which response pattern feels most like yours?",
+            helper: "",
+            options: [
+                { value: "a", label: "I hold steady, offer a few words, and feel a little awkward but not overwhelmed.", weights: { A: 0.5, C: 0.5 } },
+                { value: "b", label: "I quickly feel tears or strong sensations in my own body too.", weights: { B: 1 } },
+                { value: "c", label: "I feel a small tug, but my mind immediately starts organizing what might help.", weights: { C: 1 } },
+                { value: "d", label: "I lean in at first, then suddenly feel the urge to shut down or change the subject.", weights: { D: 1, E: 0.3 } }
+            ]
+        },
+
+        // Part 2: Cognitive Empathy & Perspective
+        {
+            id: "q4",
+            section: "Part 2 · Cognitive Empathy",
+            type: "single",
+            title: "When a friend vents about a complex situation...",
+            prompt: "What tends to happen first inside your mind?",
+            helper: "",
+            options: [
+                { value: "a", label: "I start mapping the moving parts and possible solutions in my head.", weights: { C: 1.2, F: 0.2 } },
+                { value: "b", label: "I try to sense what they’re really feeling under the words and track their emotional shifts.", weights: { B: 0.8, D: 0.4 } },
+                { value: "c", label: "I notice what their reaction might mean for my own plans, relationships, or opportunities.", weights: { F: 1 } },
+                { value: "d", label: "I struggle to track it at all and often feel a bit lost or detached.", weights: { A: 0.8, E: 0.4 } }
+            ]
+        },
+        {
+            id: "q5",
+            section: "Part 2 · Cognitive Empathy",
+            type: "scale",
+            title: "Reading what people aren’t saying out loud...",
+            prompt: "How natural does it feel for you to understand motives, tensions, or unspoken dynamics?",
+            helper: "",
+            options: [
+                { value: "1", label: "Very difficult—I usually miss it.", weights: { A: 0.7 } },
+                { value: "2", label: "I catch some of it, but it feels fuzzy.", weights: { A: 0.3, C: 0.3 } },
+                { value: "3", label: "I can usually read the room with some effort.", weights: { C: 0.7 } },
+                { value: "4", label: "I pick up on subtext quickly without trying much.", weights: { C: 0.6, F: 0.6 } },
+                { value: "5", label: "It’s almost automatic—I can often sense leverage points and vulnerabilities too.", weights: { F: 1.2, C: 0.5 } }
+            ]
+        },
+
+        // Branching follow-up (adaptive) – hyper vs shutdown emphasis
+        {
+            id: "q6_hyper",
+            section: "Adaptive Follow-Up · Emotional Flooding",
+            type: "single",
+            title: "When someone you care about is in crisis for days or weeks...",
+            prompt: "Which experience feels most familiar?",
+            helper: "This question appears because your earlier answers leaned toward higher emotional resonance.",
+            options: [
+                { value: "a", label: "I feel pulled into their emotional state and have trouble separating what’s mine vs. theirs.", weights: { B: 1.2, D: 0.3 } },
+                { value: "b", label: "I support them intensely at first and then crash into irritability or withdrawal.", weights: { D: 1, B: 0.4 } },
+                { value: "c", label: "I stay supportive but mostly by offering structure and problem-solving, not by joining the emotion.", weights: { C: 1 } }
+            ],
+            condition: function(scores) {
+                return scores.B >= scores.A && scores.B >= 1;
+            }
+        },
+        {
+            id: "q6_shutdown",
+            section: "Adaptive Follow-Up · Shutdown Pattern",
+            type: "single",
+            title: "Under sustained emotional stress...",
+            prompt: "What best describes your coping pattern?",
+            helper: "This question appears because your earlier answers leaned away from hyper-emotional flooding.",
+            options: [
+                { value: "a", label: "I go quiet and less expressive, even if I care deeply underneath.", weights: { E: 1, A: 0.3 } },
+                { value: "b", label: "I flip between trying hard to help and then disappearing or going offline.", weights: { D: 1, E: 0.4 } },
+                { value: "c", label: "I stay relatively steady and focus mostly on tasks and logistics.", weights: { C: 1, A: 0.3 } }
+            ],
+            condition: function(scores) {
+                return !(scores.B >= scores.A && scores.B >= 1);
+            }
+        },
+
+        // Part 3: Stress Behavior & Coping
+        {
+            id: "q7",
+            section: "Part 3 · Stress Behavior",
+            type: "single",
+            title: "When you feel overloaded or cornered emotionally...",
+            prompt: "Which of these reactions feels most like you in high-stress moments?",
+            helper: "",
+            options: [
+                { value: "a", label: "I get sharper, more strategic, and think about how to protect or position myself.", weights: { F: 1 } },
+                { value: "b", label: "I raise my intensity—talk faster, feel bigger feelings, or become dramatic.", weights: { B: 0.8, D: 0.4 } },
+                { value: "c", label: "I shut down, go blank, or feel like I’m watching from far away.", weights: { E: 1.1 } },
+                { value: "d", label: "I become very practical, distant, and might seem cold.", weights: { A: 0.9, C: 0.4 } }
+            ]
+        },
+        {
+            id: "q8",
+            section: "Part 3 · Stress Behavior",
+            type: "pair",
+            title: "When a conflict is brewing...",
+            prompt: "Which feels more true of you, most of the time?",
+            helper: "",
+            options: [
+                { value: "p1", label: "I’m more likely to feel the tension intensely and worry about everyone’s feelings.", weights: { B: 0.8, D: 0.4 } },
+                { value: "p2", label: "I’m more likely to scan the situation, read motives, and think about the smartest move.", weights: { C: 0.6, F: 0.8 } }
+            ]
+        },
+
+        // Part 4: Self-Reflection Pairs
+        {
+            id: "q9",
+            section: "Part 4 · Self-Reflection",
+            type: "pair",
+            title: "Which statement feels closer to your inner world?",
+            prompt: "",
+            helper: "",
+            options: [
+                { value: "p1", label: "“I often feel too much and then crash.”", weights: { B: 0.7, D: 0.7 } },
+                { value: "p2", label: "“I often feel like I should feel more than I do.”", weights: { A: 0.9, C: 0.3 } }
+            ]
+        },
+        {
+            id: "q10",
+            section: "Part 4 · Self-Reflection",
+            type: "pair",
+            title: "When it comes to empathy...",
+            prompt: "Which description lands closer for you?",
+            helper: "",
+            options: [
+                { value: "p1", label: "“My empathy feels like it can hurt me sometimes.”", weights: { B: 0.8, D: 0.4, E: 0.2 } },
+                { value: "p2", label: "“My empathy mostly feels like a tool I can aim where it’s needed.”", weights: { C: 0.5, F: 0.9 } }
+            ]
+        }
+    ];
+
+    let scores = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+    let currentIndex = 0;
+    let questionNumber = 1;
+    let selectedValue = null;
+
+    const progressTextEl = document.getElementById('progressText');
+    const sectionLabelEl = document.getElementById('sectionLabel');
+    const questionTitleEl = document.getElementById('questionTitle');
+    const questionPromptEl = document.getElementById('questionPrompt');
+    const questionHelperEl = document.getElementById('questionHelper');
+    const optionsBlockEl = document.getElementById('optionsBlock');
+    const errorTextEl = document.getElementById('errorText');
+    const nextBtn = document.getElementById('nextBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const resultPanel = document.getElementById('resultPanel');
+
+    function resetScores() {
+        scores = { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0 };
+    }
+
+    function renderQuestion() {
+        const q = questions[currentIndex];
+
+        progressTextEl.textContent = `Question ${questionNumber}`;
+        sectionLabelEl.textContent = q.section || "";
+        questionTitleEl.textContent = q.title || "";
+        questionPromptEl.textContent = q.prompt || "";
+        questionHelperEl.textContent = q.helper || "";
+
+        optionsBlockEl.innerHTML = "";
+        errorTextEl.style.display = "none";
+        selectedValue = null;
+
+        if (q.type === "single") {
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "option-button";
+                btn.textContent = opt.label;
+                btn.addEventListener('click', () => {
+                    selectOption(q, opt.value, btn);
+                });
+                optionsBlockEl.appendChild(btn);
+            });
+        } else if (q.type === "scale") {
+            const grid = document.createElement('div');
+            grid.className = "scale-options";
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "option-button scale-label";
+                btn.textContent = opt.label;
+                btn.addEventListener('click', () => {
+                    selectOption(q, opt.value, btn);
+                });
+                grid.appendChild(btn);
+            });
+            optionsBlockEl.appendChild(grid);
+        } else if (q.type === "pair") {
+            const wrapper = document.createElement('div');
+            wrapper.className = "pair-options";
+            q.options.forEach(opt => {
+                const div = document.createElement('div');
+                div.className = "pair-option";
+                div.textContent = opt.label;
+                div.addEventListener('click', () => {
+                    selectPairOption(q, opt.value, div);
+                });
+                wrapper.appendChild(div);
+            });
+            optionsBlockEl.appendChild(wrapper);
+        }
+
+        resultPanel.style.display = "none";
+    }
+
+    function clearOptionHighlights() {
+        const buttons = optionsBlockEl.querySelectorAll('.option-button, .pair-option');
+        buttons.forEach(btn => btn.classList.remove('selected'));
+    }
+
+    function selectOption(question, value, btnEl) {
+        clearOptionHighlights();
+        btnEl.classList.add('selected');
+        selectedValue = value;
+        errorTextEl.style.display = "none";
+    }
+
+    function selectPairOption(question, value, divEl) {
+        clearOptionHighlights();
+        divEl.classList.add('selected');
+        selectedValue = value;
+        errorTextEl.style.display = "none";
+    }
+
+    function applyWeights() {
+        if (!selectedValue) return;
+        const q = questions[currentIndex];
+        const opt = q.options.find(o => o.value === selectedValue);
+        if (!opt || !opt.weights) return;
+
+        Object.keys(opt.weights).forEach(key => {
+            scores[key] += opt.weights[key];
+        });
+    }
+
+    function findNextIndex() {
+        let nextIndex = currentIndex + 1;
+        while (nextIndex < questions.length) {
+            const q = questions[nextIndex];
+            if (!q.condition || q.condition(scores)) {
+                return nextIndex;
+            }
+            nextIndex++;
+        }
+        return -1;
+    }
+
+    function computeResult() {
+        let bestKey = null;
+        let bestScore = -Infinity;
+        let secondKey = null;
+        let secondScore = -Infinity;
+
+        Object.keys(scores).forEach(key => {
+            const value = scores[key];
+            if (value > bestScore) {
+                secondScore = bestScore;
+                secondKey = bestKey;
+                bestScore = value;
+                bestKey = key;
+            } else if (value > secondScore) {
+                secondScore = value;
+                secondKey = key;
+            }
+        });
+
+        if (!bestKey || bestScore <= 0) {
+            resultPanel.innerHTML = `
+                <div class="result-heading">Your pattern is still emerging.</div>
+                <div class="result-subtitle">
+                    Your responses didn’t lean clearly toward a single subtype this round, which is completely okay.
+                    You may hold a more balanced profile or still be exploring your own patterns.
+                </div>
+            `;
+            resultPanel.style.display = "block";
+            return;
+        }
+
+        const primary = subtypes[bestKey];
+        const secondary = (secondKey && secondScore > 0) ? subtypes[secondKey] : null;
+
+        // Build bar chart
+        let maxScore = 0;
+        Object.values(scores).forEach(v => { if (v > maxScore) maxScore = v; });
+        if (maxScore === 0) maxScore = 1;
+
+        let barsHtml = "";
+        Object.keys(subtypes).forEach(key => {
+            const s = scores[key];
+            const pct = Math.round((s / maxScore) * 100);
+            barsHtml += `
+                <div class="bar-row">
+                    <div class="bar-label">${subtypes[key].name}</div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width:${pct}%;"></div>
+                    </div>
+                </div>
+            `;
+        });
+
+        let secondaryHtml = "";
+        if (secondary) {
+            secondaryHtml = `
+                <div class="subtype-desc">
+                    <strong>Secondary pattern:</strong> ${secondary.name}<br>
+                    This may color how your primary subtype shows up day to day (for example,
+                    a hyper-empathic pattern with strategic or shutdown tendencies).
+                </div>
+            `;
+        }
+
+        resultPanel.innerHTML = `
+            <div class="result-heading">Your most emphasized pattern in this run</div>
+            <div class="result-subtitle">
+                Based on your responses, the subtype most reflected in this diagnostic is:
+            </div>
+            <div class="subtype-chip">
+                <span>${primary.id}</span> ${primary.name.replace(/^Type [A-F] · /, "")}
+            </div>
+            <div class="subtype-desc">${primary.description}</div>
+            ${secondaryHtml}
+            <div class="subtype-desc">
+                <strong>Score overview across the spectrum:</strong>
+            </div>
+            ${barsHtml}
+            <div class="subtype-desc">
+                Remember: this is a reflective map, not a final label. Context, trauma history, nervous system
+                capacity, and relationships all shape how empathy patterns show up over time.
+            </div>
+        `;
+        resultPanel.style.display = "block";
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (!selectedValue) {
+            errorTextEl.style.display = "block";
+            return;
+        }
+
+        applyWeights();
+
+        const nextIndex = findNextIndex();
+        if (nextIndex === -1) {
+            // End of quiz
+            questionTitleEl.textContent = "Thank you for completing the diagnostic.";
+            questionPromptEl.textContent = "Scroll down to review your empathy spectrum pattern summary.";
+            questionHelperEl.textContent = "";
+            optionsBlockEl.innerHTML = "";
+            errorTextEl.style.display = "none";
+            progressTextEl.textContent = "Completed";
+            computeResult();
+        } else {
+            currentIndex = nextIndex;
+            questionNumber++;
+            renderQuestion();
+        }
+    });
+
+    restartBtn.addEventListener('click', () => {
+        currentIndex = 0;
+        questionNumber = 1;
+        resetScores();
+        renderQuestion();
+        resultPanel.style.display = "none";
+    });
+
+    // Initialize
+    resetScores();
+    renderQuestion();
+</script>
+
+</body>
+</html>
