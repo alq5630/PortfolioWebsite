@@ -1,0 +1,107 @@
+/* ============================
+   GLOBAL ESD MICROCOACH WIDGET
+   ============================ */
+
+#esd-widget-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: var(--deep-teal);
+    color: #ffffff;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 99999;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.20);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+#esd-widget-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.26);
+}
+
+/* Panel */
+#esd-widget-panel {
+    position: fixed;
+    bottom: 110px;
+    right: 24px;
+    width: 320px;
+    max-height: 480px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 18px 20px;
+    z-index: 99999;
+    display: none;
+    box-shadow: 0 12px 34px rgba(0,0,0,0.28);
+    font-family: "Montserrat", sans-serif;
+    overflow-y: auto;
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#esd-panel-close {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--deep-teal);
+    cursor: pointer;
+    float: right;
+    padding: 0;
+    margin: 0;
+}
+
+.esd-panel-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--deep-teal);
+    margin-bottom: 12px;
+}
+
+.esd-panel-text {
+    font-size: 0.95rem;
+    color: var(--dark-gray);
+    margin-bottom: 14px;
+}
+
+/* Response buttons */
+.esd-option {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(14,71,73,0.06);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.08);
+    color: var(--deep-teal);
+    font-weight: 600;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.18s ease, box-shadow 0.18s ease;
+    font-family: "Montserrat", sans-serif;
+}
+
+.esd-option:hover {
+    background: rgba(14,71,73,0.10);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+/* Adaptive answer box */
+#esd-feedback {
+    margin-top: 16px;
+    background: var(--soft-beige);
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    border-left: 4px solid var(--mustard-yellow);
+}
