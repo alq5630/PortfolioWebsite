@@ -410,16 +410,29 @@ panel.style.display = "none";
 });
 
 /* -------------------------------
-   10. AUTO-OPEN ON PAGE LOAD
+   10. AUTO-OPEN ON PAGE LOAD 
+   Desktop: open
+   Mobile: closed
 --------------------------------*/
 window.addEventListener("load", () => {
-panel.style.display = "block";
-if (!state.answers || Object.keys(state.answers).length === 0) {
-    state.step = 0;
-    renderStep();
-}
-loadLastResult();
-});
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-})(); // END INIT
+    if (isMobile) {
+        // Mobile default collapsed
+        panel.style.display = "none";
+        trigger.style.display = "flex";
+    } else {
+        // Desktop default open
+        panel.style.display = "block";
+        trigger.style.display = "flex";
+
+        // Start fresh check if no answers stored
+        if (!state.answers || Object.keys(state.answers).length === 0) {
+            state.step = 0;
+            renderStep();
+        }
+    }
+
+    loadLastResult();
+});
 }
