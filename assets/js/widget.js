@@ -519,17 +519,24 @@ if (!window.__esdWidgetInitialized) {
 
         // Trigger + open/close behavior
 
-        trigger.addEventListener("click", () => {
-            const isOpen = panel.style.display === "block";
-            panel.style.display = isOpen ? "none" : "block";
-            if (!isOpen) {
-                // Opening fresh: if no answers, start at first step
-                if (!state.answers || Object.keys(state.answers).length === 0) {
-                    state.stepIndex = 0;
-                }
-                renderStep();
-            }
-        });
+// Minimize/expand behavior
+trigger.addEventListener("click", () => {
+    const isOpen = panel.style.display === "block";
+
+    if (isOpen) {
+        // Minimize
+        panel.style.display = "none";
+    } else {
+        // Expand full widget
+        panel.style.display = "block";
+        // Only rerender if starting fresh (prevents wiping progress)
+        if (!state.answers || Object.keys(state.answers).length === 0) {
+            state.stepIndex = 0;
+            renderStep();
+        }
+    }
+});
+
 
         closeBtn.addEventListener("click", () => {
             panel.style.display = "none";
