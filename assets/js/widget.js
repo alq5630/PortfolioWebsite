@@ -435,4 +435,3 @@ window.addEventListener("load", () => {
 
     loadLastResult();
 });
-}
