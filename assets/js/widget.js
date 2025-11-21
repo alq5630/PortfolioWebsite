@@ -15,7 +15,7 @@ window.__esdWidgetInitialized = true;
 --------------------------------*/
 const css = document.createElement("link");
 css.rel = "stylesheet";
-css.href = "assets/styles.css";
+css.href = "assets/css/widget.css";
 document.head.appendChild(css);
 
 /* -------------------------------
