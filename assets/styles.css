@@ -743,4 +743,17 @@ code.code-block {
     display: block;
 }
 
+.project-card .peek-content {
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.project-card.open .peek-content {
+    display: block;
+}
+
+.view-full-btn {
+    display: none;
+    margin-top: 1rem;
+}
 
