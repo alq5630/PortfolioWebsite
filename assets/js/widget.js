@@ -9,6 +9,17 @@ if (!window.__esdWidgetInitialized) {
             link.rel = "stylesheet";
             link.href = "assets/css/widget.css";
             document.head.appendChild(link);
+
+            // Auto-open widget on each page load
+window.addEventListener("load", () => {
+    panel.style.display = "block";
+    // If user hasn’t started yet, begin at step 0
+    if (!state.answers || Object.keys(state.answers).length === 0) {
+        state.stepIndex = 0;
+        renderStep();
+    }
+});
+
         })();
 
         const STORAGE_KEY = "esdWidgetLastResult";
