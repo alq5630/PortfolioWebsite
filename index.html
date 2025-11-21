@@ -235,7 +235,7 @@
 
 <script src="assets/js/widget.js" defer></script>
 
-<!-- Featured Work Reveal + Preview -->
+<!-- Featured Work Reveal + Preview (One card open at a time) -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll(".reveal-card");
@@ -251,23 +251,39 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         { threshold: 0.2 }
     );
-
     cards.forEach(card => observer.observe(card));
 
-    // Preview toggle
+    // Toggle previews (only one open at a time)
     cards.forEach(card => {
-        const toggle = card.querySelector(".preview-toggle");
+        const toggleBtn = card.querySelector(".preview-toggle");
         const preview = card.querySelector(".project-preview");
-        if (!toggle || !preview) return;
+        const fullBtn = card.querySelector(".preview-link");
 
-        toggle.addEventListener("click", (event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            card.classList.toggle("is-open");
+        if (!toggleBtn || !preview) return;
+
+        toggleBtn.addEventListener("click", () => {
+            const isOpen = card.classList.contains("is-open");
+
+            // Close all cards
+            cards.forEach(c => {
+                c.classList.remove("is-open");
+                const p = c.querySelector(".project-preview");
+                const f = c.querySelector(".preview-link");
+                if (p) p.style.display = "none";
+                if (f) f.style.display = "none";
+            });
+
+            // Open the clicked card if it wasn't open
+            if (!isOpen) {
+                card.classList.add("is-open");
+                preview.style.display = "block";
+                if (fullBtn) fullBtn.style.display = "inline-flex";
+            }
         });
     });
 });
 </script>
+
 
 
 </body>
