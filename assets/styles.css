@@ -534,3 +534,70 @@ code.code-block {
         padding: 18px;
     }
 }
+
+/* ============================
+   GLOBAL ESD WIDGET STYLES
+   ============================ */
+
+#esd-widget-button {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    background: var(--deep-teal);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: "Montserrat", sans-serif;
+}
+
+#esd-widget-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.24);
+}
+
+#esd-widget-panel {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    width: 320px;
+    max-height: 450px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+    padding: 18px;
+    display: none;
+    z-index: 9999;
+    font-family: "Montserrat", sans-serif;
+}
+
+#esd-widget-panel h3 {
+    margin: 0 0 10px;
+    color: var(--deep-teal);
+    font-size: 1.1rem;
+}
+
+#esd-widget-panel p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+#esd-widget-close {
+    float: right;
+    background: none;
+    border: none;
+    color: var(--deep-teal);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
