@@ -601,3 +601,64 @@ code.code-block {
     font-size: 1.2rem;
 }
 
+/* ==========================================
+   FEATURED PROJECT — Hover Aura Glow + Reveal
+   ========================================== */
+
+/* Base reveal state */
+.reveal-card {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: 
+        opacity 0.6s ease, 
+        transform 0.6s ease;
+}
+
+/* When visible */
+.reveal-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hover Interactions */
+.reveal-card {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glow Aura Behind Card */
+.reveal-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at 50% 30%,
+        rgba(64, 167, 152, 0.18),
+        rgba(217, 93, 57, 0.15),
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    transform: scale(0.9);
+    pointer-events: none;
+}
+
+.reveal-card:hover::before {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* Lift + shadow on hover */
+.reveal-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 28px rgba(0,0,0,0.12);
+    background: linear-gradient(145deg, #ffffff, #f1eee7);
+}
+
+/* Title micro-animation */
+.reveal-card:hover .project-title {
+    letter-spacing: 0.2px;
+    color: var(--deep-teal);
+    transition: color 0.25s ease, letter-spacing 0.25s ease;
+}
+
