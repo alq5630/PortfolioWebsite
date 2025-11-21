@@ -145,7 +145,7 @@ answers:{} // stepId -> string or array
 // Floating circle trigger
 const trigger = document.createElement("div");
 trigger.id = "esd-widget-trigger";
-trigger.textContent = "Mini Check-In";
+trigger.textContent = "Check";
 
 // Main panel
 const panel = document.createElement("div");
