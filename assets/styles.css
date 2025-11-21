@@ -790,3 +790,58 @@ code.code-block {
     display: inline-flex;
     margin-top: 1rem;
 }
+
+/* Base card rules */
+.reveal-card {
+    overflow: visible;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* subtle float when opened */
+.reveal-card.is-open {
+    transform: translateY(-2px);
+}
+
+/* Preview container */
+.project-preview {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 1rem;
+    transform: translateY(-8px);
+    transition:
+        max-height 0.45s cubic-bezier(0.25, 0.8, 0.25, 1),
+        opacity 0.35s ease,
+        transform 0.35s ease,
+        padding 0.35s ease;
+}
+
+/* Let the preview expand softly */
+.reveal-card.is-open .project-preview {
+    max-height: 800px; /* high enough to fit ANY preview */
+    opacity: 1;
+    transform: translateY(0);
+    padding: 1rem;
+}
+
+/* Internal fade-in parts */
+.project-preview > * {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Delay stagger for smoothness */
+.reveal-card.is-open .project-preview > * {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+}
+
+/* Ensure "View full project" is always visible */
+.preview-link {
+    display: inline-flex;
+    margin-top: 1rem;
+}
+
