@@ -61,44 +61,125 @@
         </div>
     </section>
 
-    <!-- FEATURED PROJECTS -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Featured Work</h2>
+   <section class="section">
+    <div class="container">
+        <h2 class="section-title">Featured Work</h2>
 
-            <div class="featured-grid">
+        <div class="featured-grid">
 
-                <a href="massage.html" class="project-card reveal-card">
+            <!-- Massage Therapy Curriculum -->
+            <article class="project-card reveal-card has-preview">
+                <div class="project-main">
                     <h3 class="project-title">Massage Therapy Curriculum</h3>
                     <p class="project-text">
-                        A complete curriculum redesign for college level massage therapy students with videos, lesson plans, meditations, quizzes, and a custom learning website.
+                        A complete curriculum redesign for college level massage therapy students with videos, lesson plans,
+                        meditations, quizzes, and a custom learning website.
                     </p>
-                </a>
+                </div>
 
-                <a href="esd.html" class="project-card reveal-card">
+                <button class="preview-toggle" type="button">
+                    Peek inside
+                </button>
+
+                <div class="project-preview">
+                    <div class="preview-media preview-media--placeholder">
+                        <span class="preview-tag">Curriculum Design</span>
+                        <p>Includes full-term course maps, interactive activities, and a custom learning hub site.</p>
+                    </div>
+                    <ul class="preview-list">
+                        <li>Semester-long course structure with clear learning outcomes.</li>
+                        <li>Guided meditations and body-awareness exercises embedded in the curriculum.</li>
+                        <li>Printable worksheets, quizzes, and instructor teaching notes.</li>
+                    </ul>
+                    <a href="massage.html" class="button secondary preview-link">View full project</a>
+                </div>
+            </article>
+
+            <!-- ESD Framework -->
+            <article class="project-card reveal-card has-preview">
+                <div class="project-main">
                     <h3 class="project-title">Empathy Spectrum Disorder Framework</h3>
                     <p class="project-text">
                         A multidisciplinary emotional processing model that offers tools for educators, clinicians, parents, and researchers.
                     </p>
-                </a>
+                </div>
 
-                <a href="esd-parenting.html" class="project-card reveal-card">
+                <button class="preview-toggle" type="button">
+                    Peek inside
+                </button>
+
+                <div class="project-preview">
+                    <div class="preview-media preview-media--placeholder">
+                        <span class="preview-tag">Framework & Tools</span>
+                        <p>Subtype model, visual spectrum map, clinician forms, and algorithmic identification flow.</p>
+                    </div>
+                    <ul class="preview-list">
+                        <li>Six-subtype empathy spectrum with clear pattern language.</li>
+                        <li>Clinician intake form and subtype identification algorithm.</li>
+                        <li>Visual empathy map designed for education and training.</li>
+                    </ul>
+                    <a href="esd.html" class="button secondary preview-link">View full project</a>
+                </div>
+            </article>
+
+            <!-- Parenting Workbook -->
+            <article class="project-card reveal-card has-preview">
+                <div class="project-main">
                     <h3 class="project-title">Parenting on the Empathy Spectrum Workbook</h3>
                     <p class="project-text">
                         A practical emotional development workbook with daily scripts, guidance, and supportive strategies grounded in empathy science.
                     </p>
-                </a>
+                </div>
 
-                <a href="esd-ce.html" class="project-card reveal-card">
+                <button class="preview-toggle" type="button">
+                    Peek inside
+                </button>
+
+                <div class="project-preview">
+                    <div class="preview-media preview-media--placeholder">
+                        <span class="preview-tag">Parenting Resource</span>
+                        <p>Scripted language, reflection prompts, and subtype-informed parenting tools.</p>
+                    </div>
+                    <ul class="preview-list">
+                        <li>Daily scripts tied to real-life parent–child scenarios.</li>
+                        <li>Subtype-specific strategies for hyper, hypo, and oscillating empathy.</li>
+                        <li>Reflection prompts to bring empathy science into everyday parenting.</li>
+                    </ul>
+                    <a href="esd-parenting.html" class="button secondary preview-link">View full project</a>
+                </div>
+            </article>
+
+            <!-- CE Training -->
+            <article class="project-card reveal-card has-preview">
+                <div class="project-main">
                     <h3 class="project-title">The ESD Method 12-Hour CE Training</h3>
                     <p class="project-text">
                         A structured continuing education program with lesson plans, learning objectives, assessments, handouts, and instructor guidance.
                     </p>
-                </a>
+                </div>
 
-            </div>
+                <button class="preview-toggle" type="button">
+                    Peek inside
+                </button>
+
+                <div class="project-preview">
+                    <div class="preview-media preview-media--placeholder">
+                        <span class="preview-tag">Professional Training</span>
+                        <p>Therapist-facing CE sequence with slides, scripts, and assessment methods.</p>
+                    </div>
+                    <ul class="preview-list">
+                        <li>12-hour CE structure broken into clear, progressive modules.</li>
+                        <li>Instructor notes, scripts, and experiential practice sequences.</li>
+                        <li>Assessment tools to evaluate learning and applied integration.</li>
+                    </ul>
+                    <a href="esd-ce.html" class="button secondary preview-link">View full project</a>
+                </div>
+            </article>
+
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- MORE PROJECTS -->
     <section class="section section-alt">
@@ -154,10 +235,12 @@
 
 <script src="assets/js/widget.js" defer></script>
 
+<!-- Featured Work Reveal + Preview -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const cards = document.querySelectorAll(".reveal-card");
 
+    // Scroll reveal
     const observer = new IntersectionObserver(
         entries => {
             entries.forEach(entry => {
@@ -166,12 +249,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         },
-        {
-            threshold: 0.2
-        }
+        { threshold: 0.2 }
     );
 
     cards.forEach(card => observer.observe(card));
+
+    // Preview toggle
+    cards.forEach(card => {
+        const toggle = card.querySelector(".preview-toggle");
+        const preview = card.querySelector(".project-preview");
+        if (!toggle || !preview) return;
+
+        toggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            card.classList.toggle("is-open");
+        });
+    });
 });
 </script>
 
